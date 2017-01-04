@@ -18,7 +18,7 @@ namespace MyStrategy
 	}
 	else if (state->ballPos.x < 0 && state->ballPos.x > state->homePos[botID].x && state->ballPos.x - 3*COLLISION_DIST < state->homePos[botID].x) {
 		//print("shoot");
-		GoToBall(botID, state, true);
+		shoot(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
 		return;
 	}
 	if (state->pr_ballOurSide)

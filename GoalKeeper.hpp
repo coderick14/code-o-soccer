@@ -27,7 +27,13 @@ namespace MyStrategy
 		return;
 	}
 	Vec2D pos = state->homePos[botID];
-	if (abs(pos.x - (OUR_GOAL_X + DBOX_HEIGHT) > 220)) {
+	if (pos.x < -(HALF_FIELD_MAXX - 1.23*GOAL_DEPTH)) {
+		Vec2D safepoint(-4000, 0);
+		GoToPoint(botID, state, safepoint, PI / 2, false, true);
+		print("Come out");
+		return;
+	}
+	if (/*abs(pos.x - (OUR_GOAL_X + DBOX_HEIGHT)) > 220*/ Vec2D::distSq(state->homePos[botID], Vec2D(-4200, 0)) > 1100*1100) {
 		print("GOALKEEPER: MOVE BACK TO BASE %d\t%d\t%d\n", pos.x, OUR_GOAL_X + DBOX_HEIGHT, abs(pos.x - (OUR_GOAL_X + DBOX_HEIGHT)));
 		Vec2D dpoint(OUR_GOAL_X + DBOX_HEIGHT, state->ballPos.y);
 
@@ -38,7 +44,7 @@ namespace MyStrategy
 		GoToPoint(botID, state, dpoint, PI / 2, true, true);
 		return;
 	}
-	if (fabs(state->homeAngle[botID] - PI / 2) > 0.2) {
+	if(fabs(fabs(state->homeAngle[botID]) - PI / 2) > 0.2) {
 		print("Goalkeeper TURNING %f\n", state->homeAngle[botID]);
 		TurnToAngle(botID, state, PI / 2);
 	}
