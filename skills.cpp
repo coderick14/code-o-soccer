@@ -267,6 +267,32 @@ namespace MyStrategy
 	  float angle = acos(-v.dot(Vec2D(1, 0)) / v.abs());
   }
 
+  void save_goal(int botID, BeliefState *state, Vector2D<float> point) {
+	  int botx = state->homePos[botID].x;
+	  int boty = state->homePos[botID].y;
+
+	  int ballx = state->ballPos.x;
+	  int bally = state->ballPos.y;
+	  if (Vec2D::dist(state->homePos[botID], state->ballPos) < 340) {
+		  if (boty < bally) {
+			  Spin(botID, MAX_BOT_OMEGA);
+		  }
+		  else {
+			  Spin(botID, -MAX_BOT_OMEGA);
+
+		  }
+		  return;
+	  }
+	  /*Vec2D::dist(state->ballPos, state->homePos[botID]);
+	  double time = Vec2D::dist(state->ballPos, state->homePos[botID]) / (state->ballVel.abs() + state->homePos[botID].abs());
+	  Vector2D<float> ppos = Vector2D<float>(state->ballPos.x, state->ballPos.y) + time*state->ballVel;
+	  GoToPoint(botID, state, Vec2D(ppos.x, ppos.y), Vector2D<float>::angle(point, ppos), true, true);
+	  Vec2D v = state->homePos[botID];
+	  v.x -= state->ballPos.x;
+	  v.y -= state->ballPos.y;
+	  float angle = acos(-v.dot(Vec2D(1, 0)) / v.abs());*/
+  }
+
  void vibrate(BeliefState *state,int botID,int c)
 	{
 		

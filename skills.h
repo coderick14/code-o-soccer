@@ -67,6 +67,7 @@ namespace MyStrategy
     // Stop the bot.
     void Stop(int botID);
 	void shoot(int botID, BeliefState *state, Vector2D<float> point);
+	void save_goal(int botID, BeliefState *state, Vector2D<float> point);
 	
 	void vibrate(BeliefState *state,int botID,int c);
     /*
