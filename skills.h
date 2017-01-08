@@ -45,6 +45,7 @@ typedef Vector2D<int> Vec2D;
 
 namespace MyStrategy
 {  
+	enum strips { TOP_STRIP, MIDDLE_STRIP, BOTTOM_STRIP };
     /****************************************************List of Skills******************************************************/
     // Go to a point with obstacle avoidance.
     void GoToPoint(int botID,BeliefState *state,Vector2D<int> dpoint, float finalslope, bool increaseSpeed, bool shouldAlign);
@@ -68,7 +69,11 @@ namespace MyStrategy
     void Stop(int botID);
 	void shoot(int botID, BeliefState *state, Vector2D<float> point);
 	void save_goal(int botID, BeliefState *state, Vector2D<float> point);
-	
+	int rayCastY(BeliefState* state, int botID, bool isGK = true);
+	strips whichStrip(int x, int y);
+	Vec2D predictBallPos(BeliefState* state, int botID);
+	void shootForAssist(BeliefState *state, int botID);
+	void shootForGoal(BeliefState *state, int botID);
 	void vibrate(BeliefState *state,int botID,int c);
     /*
      * For those who want to know more may checkout the function definiton in skills.cpp
@@ -86,6 +91,9 @@ namespace MyStrategy
         comm->clearDebugData();
       #endif
     }
+
+	
+
 
 
 
