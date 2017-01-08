@@ -348,16 +348,16 @@ namespace MyStrategy
 		int bally = state->ballPos.y;
 		if (Vec2D::dist(state->homePos[botID], state->ballPos) < 340) {
 			if (boty < bally) {
-				Spin(botID, -MAX_BOT_OMEGA);
+				Spin(botID, -MAX_BOT_OMEGA/2);
 			}
 			else {
-				Spin(botID, +MAX_BOT_OMEGA);
+				Spin(botID, +MAX_BOT_OMEGA/2);
 
 			}
 			return;
 		}
 		Vec2D dpoint = predictBallPos(state, botID);
-		GoToPointStraight(botID, state, dpoint, PI / 2, true, true);
+		GoToPoint(botID, state, dpoint, PI / 2, true, true);
 	}
 
 	void shootForGoal(BeliefState * state, int botID){

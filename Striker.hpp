@@ -20,14 +20,14 @@ namespace MyStrategy
 		}
 		if (strip == TOP_STRIP)
 		{
-			print("In top strip");
+			//print("In top strip");
 			dpoint.y = DBOX_HEIGHT;	
 			GoToPoint(botID, state, dpoint, /*Vec2D::angle(dpoint, awayGoal)*/ -PI / 4, true, true);
 
 		}
 		else
 		{
-			print("In bottom strip");
+			//print("In bottom strip");
 			dpoint.y = -DBOX_HEIGHT;
 			GoToPoint(botID, state, dpoint, /*Vec2D::angle(dpoint, awayGoal)*/ PI / 4, true, true);
 
