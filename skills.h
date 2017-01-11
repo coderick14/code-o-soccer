@@ -48,10 +48,10 @@ namespace MyStrategy
 	enum strips { TOP_STRIP, MIDDLE_STRIP, BOTTOM_STRIP };
     /****************************************************List of Skills******************************************************/
     // Go to a point with obstacle avoidance.
-    void GoToPoint(int botID,BeliefState *state,Vector2D<int> dpoint, float finalslope, bool increaseSpeed, bool shouldAlign);
+    void GoToPoint(int botID,BeliefState *state,Vector2D<int> dpoint, float finalslope, bool increaseSpeed, bool shouldAlign, bool wild = false);
     
     // Go to point without obstacle avoidance.
-    void GoToPointStraight(int botID,BeliefState *state,Vector2D<int>dpoint,float finalslope, bool increaseSpeed, bool shouldAlign);
+	void GoToPointStraight(int botID, BeliefState *state, Vector2D<int>dpoint, float finalslope, bool increaseSpeed, bool shouldAlign, bool wild = false);
     
     // Go to ball: If shouldAlign is true, then bot will align with the line joining the ball and the goal else will go straightaway.
     void GoToBall(int botID,BeliefState *state,bool shouldAlign);
@@ -67,14 +67,26 @@ namespace MyStrategy
     
     // Stop the bot.
     void Stop(int botID);
-	void shoot(int botID, BeliefState *state, Vector2D<float> point);
+	
+	void kick(int botID, BeliefState *state, Vector2D<float> point);
 	void save_goal(int botID, BeliefState *state, Vector2D<float> point);
 	int rayCastY(BeliefState* state, int botID, bool isGK = true);
 	strips whichStrip(int x, int y);
 	Vec2D predictBallPos(BeliefState* state, int botID);
 	void shootForAssist(BeliefState *state, int botID);
 	void shootForGoal(BeliefState *state, int botID);
+	Vector2D<float> floatV(Vec2D v);
+	Vector2D<int> intV(Vector2D<float> v);
 	void vibrate(BeliefState *state,int botID,int c);
+
+	void dribble(BeliefState *state, int botID, Vec2D targetPos, float finalAngle, bool shouldAlign);/* {
+		Vector2D<float> relVel = state->homeVel[botID] - state->ballVel;
+		double time = Vec2D::dist(state->ballPos, state->homePos[botID]) / (relVel.abs() * 5);
+		Vector2D<float> ppos = Vector2D<float>(state->ballPos.x, state->ballPos.y) + time*state->ballVel;
+
+		finalAngle = Vec2D::angle(targetPos, intV(ppos));
+		GoToPoint(botID, state, intV(ppos), finalAngle, true, true);
+	}*/
     /*
      * For those who want to know more may checkout the function definiton in skills.cpp
      * And you can also add new skills depending upon your need here.
@@ -84,16 +96,13 @@ namespace MyStrategy
 
     bool pointyInField(Vector2D<int> final);
 
-    void maingotopoint(int botID,BeliefState *state, Vector2D<int> dpoint, float finalvel, float finalslope, float clearance = CLEARANCE_PATH_PLANNER,bool increaseSpeed=0,bool avoid_obstacle = true);
+	void maingotopoint(int botID, BeliefState *state, Vector2D<int> dpoint, float finalvel, float finalslope, float clearance = CLEARANCE_PATH_PLANNER, bool increaseSpeed = 0, bool avoid_obstacle = true, bool wild = false);
     static void clearDebugData()
     {
       #ifdef FIRASSL_COMM
         comm->clearDebugData();
       #endif
     }
-
-	
-
 
 
 

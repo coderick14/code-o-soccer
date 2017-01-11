@@ -26,7 +26,7 @@ namespace MyStrategy
 	{
 		attacker(state, 2);
 		//defender(state,1);
-		if (state->ballPos.x > HALF_FIELD_MAXX / 2) {
+		if (state->ballPos.x > 0) {
 			strips currStrip = whichStrip(state->ballPos.x, state->ballPos.y);
 			// Shoot mode
 			if (abs(state->ballPos.y) < OUR_GOAL_MAXY) {
