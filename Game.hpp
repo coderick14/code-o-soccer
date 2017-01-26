@@ -27,7 +27,7 @@ namespace MyStrategy
 		//attacker(state, 2);
 		//defender(state,1);
 
-		/*Defender modes*/
+		///*Defender modes*/
 		if (state->ballPos.x > 0) {
 			strips currStrip = whichStrip(state->ballPos.x, state->ballPos.y);
 			// Shoot mode

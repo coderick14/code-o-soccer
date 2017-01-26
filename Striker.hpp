@@ -33,6 +33,8 @@ namespace MyStrategy
 			//kick(botID, state, Vector2D<float>(pos.x, pos.y));
 			if ( state->ballPos.x >state->homePos[botID].x)
 			{
+			
+				//Vec2D pos = predictBallPos(state, botID);
 				GoToPoint(botID, state, Vec2D(OPP_GOAL_X, 0), 0, true, true, true);
 				return;
 			}
