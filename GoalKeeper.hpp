@@ -67,16 +67,17 @@ namespace MyStrategy
 		Vec2D pos = state->homePos[botID];
 		Vec2D dest = Vec2D(pos);
 		Vec2D ballpos = state->ballPos;
-
-		if (dist < DBOX_WIDTH*DBOX_WIDTH) {
+		int THRESH_VEL = 80;
+		// conditions for clearing the ball
+		if (dist < DBOX_WIDTH*DBOX_WIDTH * 2 && (state->ballVel.x > -THRESH_VEL) && !(botID == 2 && abs(state->ballPos.y) < OUR_GOAL_Y)) {
 			//print("Shoot!!!");
 			GoToBall(botID, state, false);
-			//save_goal(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
+			save_goal(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
 			return;
 		}
 		dest.x = safeX;
 
-		if ( botID == 0 && Vec2D::dist(state->ballPos, state->homePos[botID]) < 1500 )
+		if ( botID == 0 && Vec2D::dist(state->ballPos, state->homePos[botID]) < DBOX_WIDTH * 1.5 )
 		{
 			dest.y = state->ballPos.y;
 		}
@@ -91,8 +92,12 @@ namespace MyStrategy
 		else if (dest.y < OUR_GOAL_MINY )  {
 			dest.y = OUR_GOAL_MINY;
 		}
+		if (botID == 2)
+		{
+			dest.y = -dest.y;
+		}
 		//print("RayCast")
 		GoToPointStraight(botID, state, dest, PI / 2, false, false);
-		//save_goal(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
+		save_goal(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
 	}
 }
