@@ -62,37 +62,55 @@ namespace MyStrategy
 			safeX = -3650;
 		}
 		int dist = Vec2D::distSq(state->ballPos, homeGoal);
-		Vec2D safepoint(-4000, 0);
 
 		Vec2D pos = state->homePos[botID];
-		Vec2D dest = Vec2D(pos);
-		Vec2D ballpos = state->ballPos;
+		Vec2D safepoint(-4250, pos.y );
 
-		//if (dist < DBOX_WIDTH*DBOX_WIDTH) {
-		//	//print("Shoot!!!");
-		//	GoToBall(botID, state, false);
-		//	save_goal(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
+
+		//if ( botID == 0 && pos.x < safeX)
+		//{
+		//	GoToPointStraight(botID, state, safepoint, PI / 2, true, true);
 		//	return;
 		//}
-		dest.x = safeX;
+		Vec2D dest = Vec2D(pos);
+		Vec2D ballpos = state->ballPos;
+		int THRESH_VEL = 50;
+		if (dist < DBOX_WIDTH*DBOX_WIDTH * 2 && (state->ballVel.x > -THRESH_VEL) && !(botID == 2 && abs(state->ballPos.y) < OUR_GOAL_Y) ) {
+			print("Shoot!!! %d ", botID);
+			GoToBall(botID, state, false);
+			save_goal(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
 
-		if ( botID == 0 && Vec2D::dist(state->ballPos, state->homePos[botID]) < 1500 )
+			return;
+		}
+		dest.x = safeX;
+		dest.y = rayCastY(state, botID);
+		//if ( botID == 0 && Vec2D::dist(state->ballPos, state->homePos[botID]) < 1500 )
+		//{
+		//	print("follow y");
+		//	dest.y = state->ballPos.y;
+		//}
+		//else
+		//{
+		//	print("RayCast");
+		//	dest.y = rayCastY(state, botID);
+		//}
+
+		if (dest.y > OUR_GOAL_MAXY ) {
+			dest.y = OUR_GOAL_MAXY;
+		}
+		else if (dest.y < OUR_GOAL_MINY)  {
+			dest.y = OUR_GOAL_MINY;
+		}
+		//print("RayCast")
+		if (Vec2D::distSq(state->homePos[botID], state->ballPos) > DBOX_WIDTH* DBOX_WIDTH * 3)
 		{
-			dest.y = state->ballPos.y;
+			GoToPoint(botID, state, dest, PI / 2, false, false);
 		}
 		else
 		{
-			dest.y = rayCastY(state, botID);
+			GoToPointStraight(botID, state, dest, PI / 2, false, true);
 		}
-
-		if (dest.y > OUR_GOAL_MAXY - 200) {
-			dest.y = OUR_GOAL_MAXY - 200;
-		}
-		else if (dest.y < OUR_GOAL_MINY + 200)  {
-			dest.y = OUR_GOAL_MINY + 200;
-		}
-		//print("RayCast")
-		GoToPoint(botID, state, dest, PI / 2, false, false);
 		save_goal(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
+
 	}
 }

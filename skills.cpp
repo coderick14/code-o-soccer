@@ -318,7 +318,7 @@ namespace MyStrategy
 
 	  int ballx = state->ballPos.x;
 	  int bally = state->ballPos.y;
-	  if (Vec2D::dist(state->homePos[botID], state->ballPos) < 340) {
+	  if (Vec2D::dist(state->homePos[botID], state->ballPos) < 270) {
 		  if (boty < bally) {
 			  Spin(botID, MAX_BOT_OMEGA);
 		  }
@@ -347,10 +347,6 @@ namespace MyStrategy
 	  {
 		  float slope = ballVel.y / ballVel.x;
 		  float y = (state->homePos[botID].x - ballpos.x) * slope + ballpos.y;
-		  if (isGK && (y < -3500 || y > 3500))
-		  {
-			  return 0;
-		  }
 		  return y;
 	  }
 	  //return 0;
@@ -423,7 +419,7 @@ namespace MyStrategy
 		  }
 		  return;
 	  }
-	  Vec2D dpoint = predictBallPos(state, botID);
+	  //Vec2D dpoint = predictBallPos(state, botID);
 	  //GoToPointStraight(botID, state, dpoint, PI / 2, true, true);
   }
 
