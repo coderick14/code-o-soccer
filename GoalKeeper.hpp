@@ -83,17 +83,18 @@ namespace MyStrategy
 			return;
 		}
 		dest.x = safeX;
-		dest.y = rayCastY(state, botID);
-		//if ( botID == 0 && Vec2D::dist(state->ballPos, state->homePos[botID]) < 1500 )
-		//{
-		//	print("follow y");
-		//	dest.y = state->ballPos.y;
-		//}
-		//else
-		//{
-		//	print("RayCast");
-		//	dest.y = rayCastY(state, botID);
-		//}
+
+
+		if ( botID == 0 && Vec2D::dist(state->ballPos, state->homePos[botID]) < 1000 )
+		{
+			print("follow y");
+			dest.y = state->ballPos.y;
+		}
+		else
+		{
+			print("RayCast");
+			dest.y = rayCastY(state, botID);
+		}
 
 		if (dest.y > OUR_GOAL_MAXY ) {
 			dest.y = OUR_GOAL_MAXY;

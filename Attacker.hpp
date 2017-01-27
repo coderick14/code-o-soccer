@@ -11,7 +11,7 @@ namespace MyStrategy
 		Vec2D ballPoint(state->ballPos.x, state->ballPos.y);
 		//Go to ball if ball is far
 		//Take ball to the goal
-		//strips currStrip = whichStrip(state->ballPos.x, state->ballPos.y);
+		strips currStrip = whichStrip(state->ballPos.x, state->ballPos.y);
 
 		//Try crossing to striker if ball in corner
 		//if (state->ballPos.x > 4200 - 4 * BOT_RADIUS) {
@@ -49,23 +49,7 @@ namespace MyStrategy
 		}
 		else
 		GoToPoint(botID, state, ballPoint, 0, true, true);*/
-		Vec2D origin(0, 0);
 
-		if (state->ballPos.y < 0)
-		{
-			origin.x = -3200;
-			origin.y = OUR_GOAL_MAXY;
-		}
-		else
-		{
-			origin.x = -3200;
-			origin.y = OUR_GOAL_MAXY;
-		}
-		if ( state->ballPos.x < -HALF_FIELD_MAXX / 3  && Vec2D::distSq(state->ballPos, state->homePos[botID]) > Vec2D::distSq(state->ballPos, state->homePos[2]))
-		{
-			GoToPoint(botID, state, origin, PI / 2, true, true);
-			return;
-		}
 		if (Vec2D::distSq(state->homePos[botID], state->ballPos) < 4 * BOT_BALL_THRESH * BOT_BALL_THRESH) {
 			if (Vec2D::distSq(state->homePos[botID], awayGoal) > 8 * DBOX_WIDTH * DBOX_WIDTH) {
 				//GoToBall
