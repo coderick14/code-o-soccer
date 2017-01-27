@@ -49,23 +49,13 @@ namespace MyStrategy
 		}
 		else
 		GoToPoint(botID, state, ballPoint, 0, true, true);*/
-		Vec2D origin(0, 0);
+		int THRESHOLD_VELOCITY_X = 60;
 
-		if (state->ballPos.y < 0)
-		{
-			origin.x = -3200;
-			origin.y = OUR_GOAL_MAXY;
-		}
-		else
-		{
-			origin.x = -3200;
-			origin.y = OUR_GOAL_MAXY;
-		}
-		if ( state->ballPos.x < -HALF_FIELD_MAXX / 3  && Vec2D::distSq(state->ballPos, state->homePos[botID]) > Vec2D::distSq(state->ballPos, state->homePos[2]))
-		{
-			GoToPoint(botID, state, origin, PI / 2, true, true);
+		if (state->homeVel[botID].x < -THRESHOLD_VELOCITY_X && state->homePos[botID].x > state->ballPos.x && state->ballPos.x < (-HALF_FIELD_MAXX + 2 * DBOX_WIDTH) && whichStrip(state->ballPos.x, state->ballPos.y) == MIDDLE_STRIP && state->homePos[botID].x < (-HALF_FIELD_MAXX + 3 * DBOX_WIDTH)) {
+			Stop(botID);
 			return;
 		}
+
 		if (Vec2D::distSq(state->homePos[botID], state->ballPos) < 4 * BOT_BALL_THRESH * BOT_BALL_THRESH) {
 			if (Vec2D::distSq(state->homePos[botID], awayGoal) > 8 * DBOX_WIDTH * DBOX_WIDTH) {
 				//GoToBall

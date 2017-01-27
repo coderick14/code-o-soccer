@@ -347,10 +347,6 @@ namespace MyStrategy
 	  {
 		  float slope = ballVel.y / ballVel.x;
 		  float y = (state->homePos[botID].x - ballpos.x) * slope + ballpos.y;
-		  if (isGK && (y < -3500 || y > 3500))
-		  {
-			  return 0;
-		  }
 		  return y;
 	  }
 	  //return 0;

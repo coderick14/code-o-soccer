@@ -68,12 +68,12 @@ namespace MyStrategy
 		Vec2D dest = Vec2D(pos);
 		Vec2D ballpos = state->ballPos;
 
-		//if (dist < DBOX_WIDTH*DBOX_WIDTH) {
-		//	//print("Shoot!!!");
-		//	GoToBall(botID, state, false);
-		//	save_goal(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
-		//	return;
-		//}
+		if (dist < DBOX_WIDTH*DBOX_WIDTH) {
+			//print("Shoot!!!");
+			GoToBall(botID, state, false);
+			//save_goal(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
+			return;
+		}
 		dest.x = safeX;
 
 		if ( botID == 0 && Vec2D::dist(state->ballPos, state->homePos[botID]) < 1500 )
@@ -85,14 +85,14 @@ namespace MyStrategy
 			dest.y = rayCastY(state, botID);
 		}
 
-		if (dest.y > OUR_GOAL_MAXY - 200) {
-			dest.y = OUR_GOAL_MAXY - 200;
+		if (dest.y > OUR_GOAL_MAXY) {
+			dest.y = OUR_GOAL_MAXY;
 		}
-		else if (dest.y < OUR_GOAL_MINY + 200)  {
-			dest.y = OUR_GOAL_MINY + 200;
+		else if (dest.y < OUR_GOAL_MINY )  {
+			dest.y = OUR_GOAL_MINY;
 		}
 		//print("RayCast")
-		GoToPoint(botID, state, dest, PI / 2, false, false);
-		save_goal(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
+		GoToPointStraight(botID, state, dest, PI / 2, false, false);
+		//save_goal(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
 	}
 }

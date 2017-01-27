@@ -11,7 +11,12 @@ namespace MyStrategy
 	Vec2D dpoint;
 	dpoint.x = -HALF_FIELD_MAXX / 2;
 	dpoint.y = rayCastY(state, botID, false);
-	
+	int THRESHOLD_VELOCITY_X = 60;
+
+	if (state->homeVel[botID].x < -THRESHOLD_VELOCITY_X && state->homePos[botID].x > state->ballPos.x && state->ballPos.x < (-HALF_FIELD_MAXX + 2 * DBOX_WIDTH) && whichStrip(state->ballPos.x, state->ballPos.y) == MIDDLE_STRIP && state->homePos[botID].x < (-HALF_FIELD_MAXX + 3 * DBOX_WIDTH)) {
+		Stop(botID);
+		return;
+	}
 	if (state->ballPos.x < state->homePos[botID].x) {
 		if (state->ballPos.y > 0/*Vec2D::distSq(state->ballPos, state->homePos[botID]) < 4 * BOT_BALL_THRESH * BOT_BALL_THRESH*/)
 		{
@@ -37,11 +42,7 @@ namespace MyStrategy
 	}
 	if (state->pr_ballOurSide)
 		print("%d",state->pr_ballOurSide);
-	int THRESHOLD_VELOCITY_X = 60;
-	if (state->homeVel[botID].x < -THRESHOLD_VELOCITY_X && state->homePos[botID].x > state->ballPos.x && state->ballPos.x < (-HALF_FIELD_MAXX + 2 * DBOX_WIDTH) && whichStrip(state->ballPos.x, state->ballPos.y) == MIDDLE_STRIP && state->homePos[botID].x < (-HALF_FIELD_MAXX + 3*DBOX_WIDTH)) {
-		Stop(botID);
-		return;
-	}
+
     GoToPoint(botID,state,dpoint,PI/2,true,false);
 	save_goal(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
 	
