@@ -29,14 +29,14 @@ namespace MyStrategy
 			dpoint.y = state->ballPos.y + 2*BOT_BALL_THRESH;
 		}
 		
-		//dribble(state, botID, Vec2D(state->ballPos.x, state->ballPos.y), PI / 2, true);
+		//dodge(state, botID, Vec2D(state->ballPos.x, state->ballPos.y), PI / 2, true);
 		//print("defend");
 	}
 	else if (state->ballPos.x < 0 && state->ballPos.x > state->homePos[botID].x /*&& state->ballPos.x - 3*COLLISION_DIST < state->homePos[botID].x*/) {
 		//print("shoot");
 		//GoToBall(botID, state, true);
 		//GoToPoint(botID, state, dpoint, PI / 2, false, false);
-		dribble(state, botID, Vec2D(OPP_GOAL_X, 0), 0, true);
+		dodge(state, botID, Vec2D(OPP_GOAL_X, 0), 0, true);
 		//save_goal(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
 		return;
 	}

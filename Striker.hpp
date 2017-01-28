@@ -15,10 +15,9 @@ namespace MyStrategy
 		//	dpoint.x = state->homePos[2].x;
 		//	dpoint.y = -state->homePos[2].y;
 		//	/*if (abs(dpoint.y) < (OUR_GOAL_MAXY)) {
-		//		dribble(state, botID, Vec2D(OPP_GOAL_X, 0), 0, true);
+		//		dodge(state, botID, Vec2D(OPP_GOAL_X, 0), 0, true);
 		//		return;
 		//	}*/
-		//	print("Parth_/\_");
 
 		//	GoToPoint(botID, state, dpoint, /*Vec2D::angle(dpoint, awayGoal)*/ PI / 2, true, true);
 		//	return;

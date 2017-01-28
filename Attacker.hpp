@@ -60,7 +60,7 @@ namespace MyStrategy
 			if (Vec2D::distSq(state->homePos[botID], awayGoal) > 8 * DBOX_WIDTH * DBOX_WIDTH) {
 				//GoToBall
 				//GoToPoint(botID, state, awayGoal, PI / 2, true, false);
-				dribble(state, botID, Vec2D(OPP_GOAL_X, 0), 0, true);
+				dodge(state, botID, Vec2D(OPP_GOAL_X, 0), 0, true);
 			}
 			else
 				shootForGoal(state, botID);
