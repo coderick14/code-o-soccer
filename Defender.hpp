@@ -25,22 +25,23 @@ namespace MyStrategy
 		Stop(botID);
 		return;
 	}
+	if (state->ballPos.x < -4000)
+	{
+		if (state->ballPos.y < 0 && state->ballPos.y > state->homePos[botID].y)
+		{
+			Stop(botID);
+			return;
+		}
+		else if (state->ballPos.y > 0 && state->ballPos.y < state->homePos[botID].y)
+		{
+			Stop(botID);
+			return;
+		}
+	}
 	bool isSpin = true;
 	if (state->ballPos.x < state->homePos[botID].x) {
 		isSpin = false;
-		if (state->ballPos.x < -4100)
-		{
-			if (state->ballPos.y < 0 && state->ballPos.y > state->homePos[botID].y)
-			{
-				Stop(botID);
-				return;
-			}
-			else if (state->ballPos.y > 0 && state->ballPos.y < state->homePos[botID].y)
-			{
-				Stop(botID);
-				return;
-			}
-		}
+		
 		if (state->ballPos.y > 0/*Vec2D::distSq(state->ballPos, state->homePos[botID]) < 4 * BOT_BALL_THRESH * BOT_BALL_THRESH*/)
 		{
 			dpoint.x = state->ballPos.x - 2*BOT_BALL_THRESH;

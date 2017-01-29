@@ -50,15 +50,22 @@ namespace MyStrategy
 		///*Defender modes*/
 		if (state->ballPos.x > 0) {
 			strips currStrip = whichStrip(state->ballPos.x, state->ballPos.y);
-			// Shoot mode
-			if (abs(state->ballPos.y) < OUR_GOAL_MAXY) {
-				striker(state, 1, MIDDLE_STRIP, true);
+			//Go into oooohh mode only in middle strip. Else become attacker.
+			if (currStrip == MIDDLE_STRIP) {
+				// Shoot mode
+					if (abs(state->ballPos.y) < OUR_GOAL_MAXY) {
+						striker(state, 1, MIDDLE_STRIP, true);
+					}
+				// Wait mode
+					else
+					{
+						striker(state, 1, currStrip);
+					}
 			}
-			// Wait mode
-			else
-			{
-				striker(state, 1, currStrip);
+			else {
+				attacker(state, 1);
 			}
+			
 		}
 		else {
 			defender(state, 1);
