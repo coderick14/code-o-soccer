@@ -57,7 +57,7 @@ namespace MyStrategy
 	//}
 		/**********************Good Old code with ray cast starts here********************************************************/
 		int safeX = -4250;
-		if (botID == 2)
+		if (botID != 0)
 		{
 			safeX = -3650;
 		}
@@ -86,13 +86,16 @@ namespace MyStrategy
 			dest.y = rayCastY(state, botID);
 		}
 
-		if (dest.y > OUR_GOAL_MAXY) {
-			dest.y = OUR_GOAL_MAXY;
+		const int THRESH = 0, THRESH_X = 0;
+		if (dest.y > OUR_GOAL_MAXY + THRESH) {
+			dest.y = OUR_GOAL_MAXY + THRESH;
+			dest.x -= THRESH_X;
 		}
-		else if (dest.y < OUR_GOAL_MINY )  {
-			dest.y = OUR_GOAL_MINY;
+		else if (dest.y < OUR_GOAL_MINY - THRESH) {
+			dest.y = OUR_GOAL_MINY - THRESH;
+			dest.x -= THRESH_X;
 		}
-		if (botID == 2)
+		if (botID != 0)
 		{
 			dest.y = -dest.y;
 		}

@@ -30,19 +30,28 @@ namespace MyStrategy
 			Vec2D pos = predictBallPos(state, botID);
 			//if(state->ballPos.x > state->homePos[botID].x)
 			//kick(botID, state, Vector2D<float>(pos.x, pos.y));
-			if ( state->ballPos.x >state->homePos[botID].x)
+			if (state->ballPos.x > state->homePos[botID].x)
 			{
-			
+
 				//Vec2D pos = predictBallPos(state, botID);
 				GoToPoint(botID, state, Vec2D(OPP_GOAL_X, 0), 0, true, true, true);
 				return;
 			}
-			
+
 		}
-		if (strip == TOP_STRIP)
+		if (botID != 1)
 		{
+			if (strip == TOP_STRIP) {
+				strip = BOTTOM_STRIP;
+			}
+			else {
+				strip = TOP_STRIP;
+			}
+		}
+
+		if (strip == TOP_STRIP) {
 			//print("In top strip");
-			dpoint.y = DBOX_HEIGHT;	
+			dpoint.y = DBOX_HEIGHT;
 			GoToPoint(botID, state, dpoint, /*Vec2D::angle(dpoint, awayGoal)*/ -PI / 4, true, true);
 
 		}

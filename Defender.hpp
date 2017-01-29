@@ -9,15 +9,38 @@ namespace MyStrategy
     //print("Defender\n");
 	//It follows the ball
 	Vec2D dpoint;
-	dpoint.x = -HALF_FIELD_MAXX / 2;
-	dpoint.y = rayCastY(state, botID, false);
-	int THRESHOLD_VELOCITY_X = 60;
+	dpoint.x = -HALF_FIELD_MAXX + 1.7 * DBOX_WIDTH;
 
-	if (state->homeVel[botID].x < -THRESHOLD_VELOCITY_X && state->homePos[botID].x > state->ballPos.x && state->ballPos.x < (-HALF_FIELD_MAXX + 2 * DBOX_WIDTH) && whichStrip(state->ballPos.x, state->ballPos.y) == MIDDLE_STRIP && state->homePos[botID].x < (-HALF_FIELD_MAXX + 3 * DBOX_WIDTH)) {
+	dpoint.y = rayCastY(state, botID, false);
+	if (dpoint.y > 2 * OUR_GOAL_MAXY) {
+		dpoint.y = OUR_GOAL_MAXY;
+	}
+	else if (dpoint.y < 2 * OUR_GOAL_MINY) {
+		dpoint.y = OUR_GOAL_MINY;
+	}
+
+	int THRESHOLD_VELOCITY = 60;
+
+	if ( state->homeVel[botID].abs() > THRESHOLD_VELOCITY && state->homeVel[botID].x < 0 && state->homePos[botID].x > state->ballPos.x && whichStrip(state->ballPos.x, state->ballPos.y) == MIDDLE_STRIP && state->homePos[botID].x < (-HALF_FIELD_MAXX + 3 * DBOX_WIDTH)) {
 		Stop(botID);
 		return;
 	}
+	bool isSpin = true;
 	if (state->ballPos.x < state->homePos[botID].x) {
+		isSpin = false;
+		if (state->ballPos.x < -4100)
+		{
+			if (state->ballPos.y < 0 && state->ballPos.y > state->homePos[botID].y)
+			{
+				Stop(botID);
+				return;
+			}
+			else if (state->ballPos.y > 0 && state->ballPos.y < state->homePos[botID].y)
+			{
+				Stop(botID);
+				return;
+			}
+		}
 		if (state->ballPos.y > 0/*Vec2D::distSq(state->ballPos, state->homePos[botID]) < 4 * BOT_BALL_THRESH * BOT_BALL_THRESH*/)
 		{
 			dpoint.x = state->ballPos.x - 2*BOT_BALL_THRESH;
@@ -44,7 +67,10 @@ namespace MyStrategy
 		print("%d",state->pr_ballOurSide);
 
     GoToPoint(botID,state,dpoint,PI/2,true,false);
-	save_goal(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
+	if (isSpin)
+	{
+		save_goal(botID, state, Vector2D<float>(state->ballPos.x, state->ballPos.y));
+	}
 	
   }
 }

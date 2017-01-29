@@ -49,9 +49,9 @@ namespace MyStrategy
 		}
 		else
 		GoToPoint(botID, state, ballPoint, 0, true, true);*/
-		int THRESHOLD_VELOCITY_X = 60;
+		int THRESHOLD_VELOCITY = 60;
 
-		if (state->homeVel[botID].x < -THRESHOLD_VELOCITY_X && state->homePos[botID].x > state->ballPos.x && state->ballPos.x < (-HALF_FIELD_MAXX + 2 * DBOX_WIDTH) && whichStrip(state->ballPos.x, state->ballPos.y) == MIDDLE_STRIP && state->homePos[botID].x < (-HALF_FIELD_MAXX + 3 * DBOX_WIDTH)) {
+		if (state->homeVel[botID].abs() < THRESHOLD_VELOCITY && state->homeVel[botID].x < 0 && state->homePos[botID].x > state->ballPos.x && state->ballPos.x < (-HALF_FIELD_MAXX + 2 * DBOX_WIDTH) && whichStrip(state->ballPos.x, state->ballPos.y) == MIDDLE_STRIP && state->homePos[botID].x < (-HALF_FIELD_MAXX + 3 * DBOX_WIDTH)) {
 			Stop(botID);
 			return;
 		}

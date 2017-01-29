@@ -7,6 +7,8 @@
 #include "Striker.hpp"
 #include "Defender.hpp"
 #include "GoalKeeper.hpp"
+#include "CentreBack.hpp"
+#include "StrikeSupporter.hpp"
 
 // Change your team color here (BLUE_TEAM/YELLOW_TEAM)face
 
@@ -24,8 +26,26 @@ namespace MyStrategy
 	// You can also make new functions and call them from game function.
 	void game(BeliefState *state)
 	{
-		//attacker(state, 2);
-		//defender(state,1);
+		/* Attacker states*/
+		if (state->ballPos.x < -HALF_FIELD_MAXX + 2.5 * DBOX_WIDTH) // Ball on our side Dont do some shit
+		{
+			// just go to opposite corner
+			int x = -4000, y = 3000;
+			if (state->ballPos.y < 0) 
+			{
+				GoToPoint(2, state, Vec2D(x, y), PI / 2, true, true);
+			}
+			else
+			{
+				GoToPoint(2, state, Vec2D(x, -y), PI / 2, true, true);
+			}
+		}
+		else // Normal Attacker
+		{
+			attacker(state, 2);
+		}
+		//attacker(state, 4);
+		
 
 		///*Defender modes*/
 		if (state->ballPos.x > 0) {
@@ -44,16 +64,31 @@ namespace MyStrategy
 			defender(state, 1);
 		}
 
-		/*Attcker modes*/
+		/*Defender modes*/
 		if (state->ballPos.x < -HALF_FIELD_MAXX + 2.5 * DBOX_WIDTH)
 		{
-			goalkeeper(state, 2);
+			centreBack(state, 3);
+		}
+		else if (state->ballPos.x > 1000) {
+			strips currStrip = whichStrip(state->ballPos.x, state->ballPos.y);
+			// Shoot mode
+			if (currStrip == MIDDLE_STRIP /*abs(state->ballPos.y) < OUR_GOAL_MAXY*/) {
+				attacker(state, 3);
+			}
+			// Wait mode
+			else
+			{
+				strike_supporter(state, 3);
+			}
 		}
 		else
 		{
-			attacker(state, 2);
+			defender(state, 3);
 		}
+
 		goalkeeper(state, 0);
+		centreBack(state, 4);
+		//defender(state, 3);
 		//print("%d %d", state->ballPos.x, state->ballPos.y);
 	}
 }
