@@ -31,11 +31,18 @@ namespace MyStrategy
 		int safeX = -4250;
 		if (botID != 0)
 		{
-			safeX = -3500;
+			safeX = -3400;
 		}
 
 		int THRESHOLD_VELOCITY = 60;
 
+		// Prevent Foul
+		if (state->ballPos.x < state->homePos[botID].x && Vec2D::dist(state->ballPos, state->homePos[botID]) < 500)
+		{
+			print("Fucking foul");
+			GoToPointStraight(botID, state, Vec2D(0, 0), PI / 2, true, true, true);
+			return;
+		}
 		if (state->homeVel[botID].abs() > THRESHOLD_VELOCITY && state->homeVel[botID].x < 0 && state->homePos[botID].x > state->ballPos.x && whichStrip(state->ballPos.x, state->ballPos.y) == MIDDLE_STRIP && state->homePos[botID].x < (-HALF_FIELD_MAXX + 3 * DBOX_WIDTH)) {
 			Stop(botID);
 			return;
@@ -65,7 +72,11 @@ namespace MyStrategy
 		{
 			dest.y = rayCastY(state, botID);
 		}
-		const int THRESH = 350, THRESH_X = 300;
+		int THRESH = 350, THRESH_X = 300;
+		if (state->ballPos.y > 0)
+		{
+			THRESH = -THRESH;
+		}
 		if (dest.y > OUR_GOAL_MAXY + THRESH) {
 			dest.y = OUR_GOAL_MAXY + THRESH;
 			dest.x -= THRESH_X;

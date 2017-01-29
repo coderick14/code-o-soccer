@@ -22,6 +22,25 @@ namespace MyStrategy
 	extern int defend_bot = 1;
 	extern int attack_bot = 2;
 
+	// Only called by attacker
+	void save_goal_elegantly(int botID, BeliefState *state, Vector2D<float> point) {
+		int botx = state->homePos[botID].x;
+		int boty = state->homePos[botID].y;
+
+		int ballx = state->ballPos.x;
+		int bally = state->ballPos.y;
+		if (Vec2D::dist(state->homePos[botID], state->ballPos) < 340) {
+
+			if (boty < bally && boty > 0) {
+				Spin(botID, MAX_BOT_OMEGA);
+			}
+			else if(boty > bally && boty < 0) {
+				Spin(botID, -MAX_BOT_OMEGA);
+
+			}
+			return;
+		}
+	}
 	// Write your strategy here in game function.
 	// You can also make new functions and call them from game function.
 	void game(BeliefState *state)
@@ -29,16 +48,29 @@ namespace MyStrategy
 		/* Attacker states*/
 		if (state->ballPos.x < -HALF_FIELD_MAXX + 2.5 * DBOX_WIDTH) // Ball on our side Dont do some shit
 		{
-			// just go to opposite corner
-			int x = -4000, y = 3000;
-			if (state->ballPos.y < 0) 
+			// Come out condition
+			if (state->homePos[2].x < -4500)
 			{
-				GoToPoint(2, state, Vec2D(x, y), PI / 2, true, true);
+				GoToPointStraight(2, state, Vec2D(0, 0), PI / 2, true, true, true);
+
 			}
 			else
 			{
-				GoToPoint(2, state, Vec2D(x, -y), PI / 2, true, true);
+				// just go to opposite corner
+				int x = -4200, y = DBOX_WIDTH + 400;
+				if (state->ballPos.y < 0)
+				{
+					GoToPoint(2, state, Vec2D(x, -y), PI / 2, true, true);
+					save_goal_elegantly(2, state, Vector2D<float>(x, -y));
+				}
+				else
+				{
+					GoToPoint(2, state, Vec2D(x, y), PI / 2, true, true);
+					save_goal_elegantly(2, state, Vector2D<float>(x, y));
+
+				}
 			}
+			
 		}
 		else // Normal Attacker
 		{
@@ -51,7 +83,7 @@ namespace MyStrategy
 		if (state->ballPos.x > 0) {
 			strips currStrip = whichStrip(state->ballPos.x, state->ballPos.y);
 			//Go into oooohh mode only in middle strip. Else become attacker.
-			if (currStrip == MIDDLE_STRIP) {
+			//if (currStrip == MIDDLE_STRIP) {
 				// Shoot mode
 					if (abs(state->ballPos.y) < OUR_GOAL_MAXY) {
 						striker(state, 1, MIDDLE_STRIP, true);
@@ -61,10 +93,10 @@ namespace MyStrategy
 					{
 						striker(state, 1, currStrip);
 					}
-			}
+			/*}
 			else {
 				attacker(state, 1);
-			}
+			}*/
 			
 		}
 		else {
